@@ -21,7 +21,7 @@ public class ProfileService extends AbstractService<Profile> {
     }
 
     private void checkUniqueLogin(Profile profile) throws Exception {
-        if (this.repository.exists((p, repository) -> p.getLogin().equals(profile.getLogin()))) {
+        if (this.repository.exists(p -> p.getLogin().equals(profile.getLogin()))) {
             throw new Exception("Login already exists");
         }
     }
