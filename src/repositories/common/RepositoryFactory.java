@@ -1,4 +1,4 @@
-package repositories;
+package repositories.common;
 
 public interface RepositoryFactory {
 

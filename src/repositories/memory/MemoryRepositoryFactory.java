@@ -1,7 +1,7 @@
 package repositories.memory;
 
 
-import repositories.RepositoryFactory;
+import repositories.common.RepositoryFactory;
 
 public class MemoryRepositoryFactory implements RepositoryFactory {
 

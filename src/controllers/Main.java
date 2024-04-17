@@ -2,12 +2,12 @@ package controllers;
 
 import models.Article;
 import models.Profile;
-import repositories.RepositoryFactory;
+import repositories.common.RepositoryFactory;
 import repositories.db.DBRepositoryFactory;
 import repositories.files.FilesRepositoryFactory;
-import repositories.filters.AbstractFilter;
-import repositories.filters.FilterContains;
-import repositories.filters.FilterEquals;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.FilterContains;
+import repositories.common.filters.FilterEquals;
 import repositories.memory.MemoryRepositoryFactory;
 import services.ArticleService;
 import services.ProfileService;

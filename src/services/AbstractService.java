@@ -1,9 +1,9 @@
 package services;
 
 import models.AbstractElement;
-import repositories.CRUDRepository;
-import repositories.SearchCriteria;
-import repositories.filters.AbstractFilter;
+import repositories.common.CRUDRepository;
+import repositories.common.SearchCriteria;
+import repositories.common.filters.AbstractFilter;
 
 import java.util.List;
 

@@ -1,14 +1,14 @@
 package repositories.memory;
 
 import models.Article;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.FilterEvaluator;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleRepository extends repositories.ArticleRepository {
+public class ArticleRepository extends repositories.common.ArticleRepository {
 
     List<Article> articles = new ArrayList<>();
 

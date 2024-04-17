@@ -2,10 +2,7 @@ package services;
 
 import models.Article;
 import models.Profile;
-import repositories.CRUDRepository;
-import repositories.SearchCriteria;
-
-import java.util.List;
+import repositories.common.CRUDRepository;
 
 public class ArticleService extends AbstractService<Article> {
 

@@ -1,6 +1,6 @@
 package repositories.db;
 
-import repositories.RepositoryFactory;
+import repositories.common.RepositoryFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;

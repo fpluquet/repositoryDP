@@ -1,15 +1,15 @@
 package repositories.files;
 
 import models.Profile;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.FilterEvaluator;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfileRepository extends repositories.ProfileRepository {
+public class ProfileRepository extends repositories.common.ProfileRepository {
 
     private final FilesRepositoryFactory repositoryFactory;
     private final FileLinesStream fileLinesStream;

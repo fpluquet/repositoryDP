@@ -2,8 +2,8 @@ package repositories.db;
 
 import models.Article;
 import models.Profile;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.SQLGenerator;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.SQLGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ArticleRepository extends repositories.ArticleRepository {
+public class ArticleRepository extends repositories.common.ArticleRepository {
 
     private final Connection connection;
     private final DBRepositoryFactory factory;

@@ -1,8 +1,8 @@
 package repositories.db;
 
 import models.Profile;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.SQLGenerator;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.SQLGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProfileRepository extends repositories.ProfileRepository {
+public class ProfileRepository extends repositories.common.ProfileRepository {
     private final Connection connection;
 
     public ProfileRepository(Connection connection) {

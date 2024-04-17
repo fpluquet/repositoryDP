@@ -2,16 +2,16 @@ package repositories.files;
 
 import models.Article;
 import models.Profile;
-import repositories.SearchCriteria;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.FilterEvaluator;
+import repositories.common.SearchCriteria;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleRepository extends repositories.ArticleRepository {
+public class ArticleRepository extends repositories.common.ArticleRepository {
 
     private final FilesRepositoryFactory repositoryFactory;
 

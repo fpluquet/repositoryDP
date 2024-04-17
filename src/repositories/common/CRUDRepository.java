@@ -1,6 +1,6 @@
-package repositories;
+package repositories.common;
 
-import repositories.filters.AbstractFilter;
+import repositories.common.filters.AbstractFilter;
 
 import java.util.List;
 

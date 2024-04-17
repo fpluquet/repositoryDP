@@ -1,7 +1,7 @@
 package repositories.files;
 
 import models.Profile;
-import repositories.RepositoryFactory;
+import repositories.common.RepositoryFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,12 +17,12 @@ public class FilesRepositoryFactory implements RepositoryFactory {
     }
 
     @Override
-    public repositories.ArticleRepository getArticleRepository() {
+    public repositories.common.ArticleRepository getArticleRepository() {
         return articleRepository;
     }
 
     @Override
-    public repositories.ProfileRepository getProfileRepository() {
+    public repositories.common.ProfileRepository getProfileRepository() {
         return profileRepository;
     }
 

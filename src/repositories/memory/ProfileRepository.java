@@ -1,8 +1,8 @@
 package repositories.memory;
 
 import models.Profile;
-import repositories.filters.AbstractFilter;
-import repositories.filters.visitors.FilterEvaluator;
+import repositories.common.filters.AbstractFilter;
+import repositories.common.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public class ProfileRepository extends repositories.ProfileRepository {
+public class ProfileRepository extends repositories.common.ProfileRepository {
 
     List<Profile> profiles = new ArrayList<>();
 

@@ -1,6 +1,6 @@
-package repositories.filters;
+package repositories.common.filters;
 
-import repositories.filters.visitors.FiltersVisitor;
+import repositories.common.filters.visitors.FiltersVisitor;
 
 public class CompositeOrFilter<T> extends CompositeFilter<T> {
 

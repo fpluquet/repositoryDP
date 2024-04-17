@@ -1,10 +1,7 @@
 package services;
 
 import models.Profile;
-import repositories.CRUDRepository;
-import repositories.SearchCriteria;
-
-import java.util.List;
+import repositories.common.CRUDRepository;
 
 public class ProfileService extends AbstractService<Profile> {
 

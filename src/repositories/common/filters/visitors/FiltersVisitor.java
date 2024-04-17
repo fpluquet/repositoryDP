@@ -1,6 +1,6 @@
-package repositories.filters.visitors;
+package repositories.common.filters.visitors;
 
-import repositories.filters.*;
+import repositories.common.filters.*;
 
 public class FiltersVisitor<T> {
 
