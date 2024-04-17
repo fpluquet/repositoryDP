@@ -2,12 +2,16 @@ package repositories.db;
 
 import models.Article;
 import models.Profile;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.SQLGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ArticleRepository extends repositories.ArticleRepository {
 
@@ -92,4 +96,35 @@ public class ArticleRepository extends repositories.ArticleRepository {
         statement.setLong(1, article.getId());
         statement.execute();
     }
+
+    @Override
+    public Article get(AbstractFilter<Article> filter) throws Exception {
+        SQLGenerator<Article> sqlGenerator = new SQLGenerator<Article>();
+        String sql = sqlGenerator.generateSQL(filter);
+        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql + " LIMIT 1");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM articles WHERE " + sql + " LIMIT 1");
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            return articleFromResultSet(resultSet);
+        }
+        throw new Exception("Article not found");
+    }
+
+    @Override
+    public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
+        SQLGenerator<Article> sqlGenerator = new SQLGenerator<Article>();
+        String sql = sqlGenerator.generateSQL(filter);
+        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql);
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM articles WHERE " + sql);
+        ResultSet resultSet = statement.executeQuery();
+        List<Article> articles = new java.util.ArrayList<>();
+
+        while (resultSet.next()) {
+            articles.add(articleFromResultSet(resultSet));
+        }
+
+        return articles;
+    }
+
+
 }

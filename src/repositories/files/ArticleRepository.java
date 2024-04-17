@@ -3,6 +3,8 @@ package repositories.files;
 import models.Article;
 import models.Profile;
 import repositories.SearchCriteria;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -91,6 +93,16 @@ public class ArticleRepository extends repositories.ArticleRepository {
     @Override
     public List<Article> getAll(SearchCriteria<Article> criteria) throws Exception {
         return this.findAll().stream().filter(criteria::match).toList();
+    }
+
+    @Override
+    public Article get(AbstractFilter<Article> filter) throws Exception {
+        return this.get(a -> FilterEvaluator.match(a, filter));
+    }
+
+    @Override
+    public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
+        return this.getAll(a -> FilterEvaluator.match(a, filter));
     }
 
     private void writeAll(List<Article> articles) throws IOException {

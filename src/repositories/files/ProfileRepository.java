@@ -1,6 +1,8 @@
 package repositories.files;
 
 import models.Profile;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -74,6 +76,16 @@ public class ProfileRepository extends repositories.ProfileRepository {
         List<Profile> profiles = this.findAll();
         profiles = profiles.stream().filter(p -> p.getId() != profile.getId()).toList();
         writeAll(profiles);
+    }
+
+    @Override
+    public Profile get(AbstractFilter<Profile> filter) throws Exception {
+        return this.get(p -> FilterEvaluator.match(p, filter));
+    }
+
+    @Override
+    public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
+        return this.getAll(p -> FilterEvaluator.match(p, filter));
     }
 
 

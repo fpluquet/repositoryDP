@@ -1,6 +1,8 @@
 package repositories.memory;
 
 import models.Profile;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,6 +53,16 @@ public class ProfileRepository extends repositories.ProfileRepository {
             throw new IOException("Profile not found");
         }
         profiles = profiles.stream().filter(p -> p.getId() != profile.getId()).toList();
+    }
+
+    @Override
+    public Profile get(AbstractFilter<Profile> filter) throws Exception {
+        return this.get(p -> FilterEvaluator.match(p, filter));
+    }
+
+    @Override
+    public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
+        return this.getAll(p -> FilterEvaluator.match(p, filter));
     }
 
 

@@ -3,6 +3,7 @@ package services;
 import models.AbstractElement;
 import repositories.CRUDRepository;
 import repositories.SearchCriteria;
+import repositories.filters.AbstractFilter;
 
 import java.util.List;
 
@@ -22,7 +23,19 @@ public class AbstractService<T extends AbstractElement> {
         return this.repository.getAll(criteria);
     }
 
+    public T get(AbstractFilter<T> criteria) throws Exception {
+        return this.repository.get(criteria);
+    }
+
+    public List<T> getAll(AbstractFilter<T> criteria) throws Exception {
+        return this.repository.getAll(criteria);
+    }
+
     public boolean exists(SearchCriteria<T> criteria) throws Exception {
+        return this.repository.exists(criteria);
+    }
+
+    public boolean exists(AbstractFilter<T> criteria) throws Exception {
         return this.repository.exists(criteria);
     }
 

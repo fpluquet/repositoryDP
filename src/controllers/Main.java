@@ -5,6 +5,9 @@ import models.Profile;
 import repositories.RepositoryFactory;
 import repositories.db.DBRepositoryFactory;
 import repositories.files.FilesRepositoryFactory;
+import repositories.filters.AbstractFilter;
+import repositories.filters.FilterContains;
+import repositories.filters.FilterEquals;
 import repositories.memory.MemoryRepositoryFactory;
 import services.ArticleService;
 import services.ProfileService;
@@ -35,7 +38,7 @@ public class Main {
         try {
             RepositoryFactory repositoryFactory = getDBRepositoryFactory();
 //            RepositoryFactory repositoryFactory = getFilesRepositoryFactory();
-//            RepositoryFactory repositoryFactory = getMemoryRepositoryFactory();
+ //           RepositoryFactory repositoryFactory = getMemoryRepositoryFactory();
             ArticleService articleService = new ArticleService(repositoryFactory.getArticleRepository());
             ProfileService profileService = new ProfileService(repositoryFactory.getProfileRepository());
 
@@ -45,14 +48,26 @@ public class Main {
             System.out.println("Profiles:");
             profileService.findAll().forEach(System.out::println);
 
+            AbstractFilter<Profile> filter = new FilterEquals<Profile>("login", "freddy").and(new FilterEquals<>("fullname", "Fred Flintstonee")).or(new FilterEquals<>("login", "barney"));
+            AbstractFilter<Profile> filter2 = new FilterEquals<Profile>("login", "freddy").and(new FilterEquals<Profile>("fullname", "Fred Flintstonee").or(new FilterEquals<>("login", "barney")));
+            AbstractFilter<Profile> filter3 = new FilterContains<Profile>("fullname", "Fred").or(new FilterContains<>("fullname", "barney"));
+
             Profile profile;
-            if (profileService.exists(p -> p.getLogin().equals("fredo"))) {
-                profile = profileService.get(p -> p.getLogin().equals("fredo"));
+            if (profileService.exists(new FilterEquals<>("login", "freddy"))) {
+                profile = profileService.get(filter3);
             } else {
-                profile = profileService.createProfile("fredo", "Fred Flintstone");
+                profile = profileService.createProfile("freddy", "Fred Flintstone");
                 System.out.println("Created profile: " + profile);
-                System.out.println("Profiles:");
             }
+
+            if (profileService.exists(filter)) {
+                System.out.println("Profile found: " + profileService.get(filter));
+            }
+
+            for(Profile p : profileService.getAll(filter3)){
+                System.out.println("Profile found with filter3: " + p);
+            }
+
 
             profile.setFullname("Fred Flintstone Sr.");
             profileService.update(profile);

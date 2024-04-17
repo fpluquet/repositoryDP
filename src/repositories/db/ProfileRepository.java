@@ -1,12 +1,16 @@
 package repositories.db;
 
 import models.Profile;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.SQLGenerator;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProfileRepository extends repositories.ProfileRepository {
     private final Connection connection;
@@ -87,5 +91,34 @@ public class ProfileRepository extends repositories.ProfileRepository {
         PreparedStatement statement = connection.prepareStatement("DELETE FROM profiles WHERE id = ?");
         statement.setLong(1, profile.getId());
         statement.execute();
+    }
+
+    @Override
+    public Profile get(AbstractFilter<Profile> filter) throws Exception {
+        SQLGenerator<Profile> sqlGenerator = new SQLGenerator<Profile>();
+        String sql = sqlGenerator.generateSQL(filter);
+        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM product WHERE " + sql + " LIMIT 1");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM profiles WHERE " + sql + " LIMIT 1");
+        statement.execute();
+        ResultSet resultSet = statement.getResultSet();
+        if (resultSet.next()) {
+            return profileFromResultSet(resultSet);
+        }
+        throw new Exception("Profile not found");
+    }
+
+    @Override
+    public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
+        SQLGenerator<Profile> sqlGenerator = new SQLGenerator<Profile>();
+        String sql = sqlGenerator.generateSQL(filter);
+        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM product WHERE " + sql);
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM profiles WHERE " + sql);
+        statement.execute();
+        ResultSet resultSet = statement.getResultSet();
+        List<Profile> profiles = new ArrayList<>();
+        while (resultSet.next()) {
+            profiles.add(profileFromResultSet(resultSet));
+        }
+        return profiles;
     }
 }

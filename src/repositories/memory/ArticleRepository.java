@@ -1,6 +1,8 @@
 package repositories.memory;
 
 import models.Article;
+import repositories.filters.AbstractFilter;
+import repositories.filters.visitors.FilterEvaluator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,6 +51,16 @@ public class ArticleRepository extends repositories.ArticleRepository {
             throw new IOException("Article not found");
         }
         articles = articles.stream().filter(a -> a.getId() != article.getId()).toList();
+    }
+
+    @Override
+    public Article get(AbstractFilter<Article> filter) throws Exception {
+        return this.get(a -> FilterEvaluator.match(a, filter));
+    }
+
+    @Override
+    public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
+        return this.getAll(a -> FilterEvaluator.match(a, filter));
     }
 
 }
