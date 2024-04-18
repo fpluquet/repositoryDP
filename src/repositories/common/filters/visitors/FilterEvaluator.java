@@ -1,16 +1,18 @@
 package repositories.common.filters.visitors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import repositories.common.filters.*;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FilterEvaluator<T> extends FiltersVisitor<T> {
 
-    private boolean isTaken = true;
+    private static final Logger log = LoggerFactory.getLogger(FilterEvaluator.class);
     private final T value;
+    private boolean isTaken = true;
 
     public FilterEvaluator(T value) {
         this.value = value;
@@ -29,7 +31,7 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
             isTaken = isTaken && Objects.equals(field.get(this.value), filterEquals.getValue());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             isTaken = false;
-            Logger.getLogger("FilterTester").log(Level.SEVERE, "Field " + filterEquals.getKey() + " not found ", e);
+            log.error("Field " + filterEquals.getKey() + " not found ", e);
         }
     }
 
@@ -40,7 +42,7 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
             isTaken = isTaken && field.get(this.value).toString().contains(filterContains.getText());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             isTaken = false;
-            Logger.getLogger("FilterTester").log(Level.SEVERE, "Field " + filterContains.getKey() + " not found ", e);
+            log.error("Field " + filterContains.getKey() + " not found ", e);
         }
     }
 
@@ -66,8 +68,10 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
         }
     }
 
-
-
+    @Override
+    public void visit(FilterAlwaysTrue<T> filter) {
+        isTaken = true;
+    }
 
 
 }

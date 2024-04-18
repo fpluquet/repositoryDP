@@ -32,7 +32,7 @@ public class SQLGenerator<T> extends FiltersVisitor<T> {
                 .append("%'");
     }
 
-                      @Override
+    @Override
     public void visit(CompositeAndFilter<T> filter) {
         sql.append("(");
         for (int i = 0; i < filter.getFilters().size(); i++) {
@@ -54,5 +54,10 @@ public class SQLGenerator<T> extends FiltersVisitor<T> {
             }
         }
         sql.append(")");
+    }
+
+    @Override
+    public void visit(FilterAlwaysTrue<T> filter) {
+        sql.append("1=1");
     }
 }

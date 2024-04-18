@@ -1,6 +1,7 @@
 package repositories.db;
 
 import models.Profile;
+import org.slf4j.LoggerFactory;
 import repositories.common.filters.AbstractFilter;
 import repositories.common.filters.visitors.SQLGenerator;
 
@@ -13,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ProfileRepository extends repositories.common.ProfileRepository {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ProfileRepository.class);
     private final Connection connection;
 
     public ProfileRepository(Connection connection) {
@@ -97,7 +99,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
     public Profile get(AbstractFilter<Profile> filter) throws Exception {
         SQLGenerator<Profile> sqlGenerator = new SQLGenerator<Profile>();
         String sql = sqlGenerator.generateSQL(filter);
-        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM product WHERE " + sql + " LIMIT 1");
+        log.info("SQL à exécuter : " + "SELECT * FROM product WHERE " + sql + " LIMIT 1");
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM profiles WHERE " + sql + " LIMIT 1");
         statement.execute();
         ResultSet resultSet = statement.getResultSet();
@@ -111,7 +113,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
     public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
         SQLGenerator<Profile> sqlGenerator = new SQLGenerator<Profile>();
         String sql = sqlGenerator.generateSQL(filter);
-        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM product WHERE " + sql);
+        log.info("SQL à exécuter : " + "SELECT * FROM profiles WHERE " + sql);
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM profiles WHERE " + sql);
         statement.execute();
         ResultSet resultSet = statement.getResultSet();

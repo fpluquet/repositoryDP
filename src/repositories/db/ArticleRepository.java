@@ -2,6 +2,7 @@ package repositories.db;
 
 import models.Article;
 import models.Profile;
+import org.slf4j.LoggerFactory;
 import repositories.common.filters.AbstractFilter;
 import repositories.common.filters.visitors.SQLGenerator;
 
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 
 public class ArticleRepository extends repositories.common.ArticleRepository {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ArticleRepository.class);
     private final Connection connection;
     private final DBRepositoryFactory factory;
 
@@ -101,7 +103,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
     public Article get(AbstractFilter<Article> filter) throws Exception {
         SQLGenerator<Article> sqlGenerator = new SQLGenerator<Article>();
         String sql = sqlGenerator.generateSQL(filter);
-        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql + " LIMIT 1");
+        log.info("SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql + " LIMIT 1");
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM articles WHERE " + sql + " LIMIT 1");
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
@@ -114,7 +116,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
     public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
         SQLGenerator<Article> sqlGenerator = new SQLGenerator<Article>();
         String sql = sqlGenerator.generateSQL(filter);
-        Logger.getLogger("SQL").log(Level.INFO, "SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql);
+        log.info("SQL à exécuter : " + "SELECT * FROM articles WHERE " + sql);
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM articles WHERE " + sql);
         ResultSet resultSet = statement.executeQuery();
         List<Article> articles = new java.util.ArrayList<>();

@@ -1,4 +1,5 @@
 package repositories.common.filters;
+
 import repositories.common.filters.visitors.FiltersVisitor;
 
 import java.util.ArrayList;
