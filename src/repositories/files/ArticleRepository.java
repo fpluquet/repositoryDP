@@ -2,7 +2,6 @@ package repositories.files;
 
 import models.Article;
 import models.Profile;
-import repositories.common.SearchCriteria;
 import repositories.common.filters.AbstractFilter;
 import repositories.common.filters.visitors.FilterEvaluator;
 
@@ -44,7 +43,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
     }
 
     @Override
-    public List<Article> findAll() throws Exception {
+    public List<Article> getAll() throws Exception {
         fileLinesStream.reset();
         List<Article> articles = new ArrayList<>();
         while (fileLinesStream.hasNext()) {
@@ -59,12 +58,12 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
 
     @Override
     public Article getById(Long aLong) throws Exception {
-        return this.findAll().stream().filter(article -> article.getId() == aLong).findFirst().orElseThrow();
+        return this.getAll().stream().filter(article -> article.getId() == aLong).findFirst().orElseThrow();
     }
 
     @Override
     public void save(Article article) throws Exception {
-        List<Article> articles = this.findAll();
+        List<Article> articles = this.getAll();
         articles.add(article);
         article.setId(nextId++);
         writeAll(articles);
@@ -72,7 +71,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
 
     @Override
     public void update(Article article) throws Exception {
-        List<Article> articles = this.findAll();
+        List<Article> articles = this.getAll();
         articles = new ArrayList<>(articles.stream().filter(a -> a.getId() != article.getId()).toList());
         articles.add(article);
         writeAll(articles);
@@ -80,29 +79,16 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
 
     @Override
     public void delete(Article article) throws Exception {
-        List<Article> articles = this.findAll();
+        List<Article> articles = this.getAll();
         articles = articles.stream().filter(a -> a.getId() != article.getId()).toList();
         writeAll(articles);
     }
 
-    @Override
-    public Article get(SearchCriteria<Article> criteria) throws Exception {
-        return this.findAll().stream().filter(criteria::match).findFirst().orElseThrow();
-    }
 
-    @Override
-    public List<Article> getAll(SearchCriteria<Article> criteria) throws Exception {
-        return this.findAll().stream().filter(criteria::match).toList();
-    }
-
-    @Override
-    public Article get(AbstractFilter<Article> filter) throws Exception {
-        return this.get(a -> FilterEvaluator.match(a, filter));
-    }
 
     @Override
     public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
-        return this.getAll(a -> FilterEvaluator.match(a, filter));
+        return this.getAll().stream().filter(a -> FilterEvaluator.evaluate(a, filter)).toList();
     }
 
     private void writeAll(List<Article> articles) throws IOException {

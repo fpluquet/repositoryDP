@@ -32,7 +32,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
     }
 
     @Override
-    public List<Profile> findAll() throws Exception {
+    public List<Profile> getAll() throws Exception {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM profiles");
         statement.execute();
         ResultSet resultSet = statement.getResultSet();

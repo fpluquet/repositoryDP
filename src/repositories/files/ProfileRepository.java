@@ -37,7 +37,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
     }
 
     @Override
-    public List<Profile> findAll() throws IOException {
+    public List<Profile> getAll() throws IOException {
         fileLinesStream.reset();
         List<Profile> profiles = new ArrayList<>();
         while (fileLinesStream.hasNext()) {
@@ -51,12 +51,12 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
 
     @Override
     public Profile getById(Long aLong) throws Exception {
-        return this.findAll().stream().filter(profile -> profile.getId() == aLong).findFirst().orElseThrow();
+        return this.getAll().stream().filter(profile -> profile.getId() == aLong).findFirst().orElseThrow();
     }
 
     @Override
     public void save(Profile profile) throws Exception {
-        List<Profile> profiles = this.findAll();
+        List<Profile> profiles = this.getAll();
         profiles.add(profile);
         profile.setId(nextId++);
         writeAll(profiles);
@@ -64,7 +64,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
 
     @Override
     public void update(Profile profile) throws Exception {
-        List<Profile> profiles = this.findAll();
+        List<Profile> profiles = this.getAll();
         Profile existingProfile = profiles.stream().filter(p -> p.getId() == profile.getId()).findFirst().orElseThrow();
         existingProfile.setFullname(profile.getFullname());
         existingProfile.setLogin(profile.getLogin());
@@ -73,19 +73,15 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
 
     @Override
     public void delete(Profile profile) throws Exception {
-        List<Profile> profiles = this.findAll();
+        List<Profile> profiles = this.getAll();
         profiles = profiles.stream().filter(p -> p.getId() != profile.getId()).toList();
         writeAll(profiles);
     }
 
-    @Override
-    public Profile get(AbstractFilter<Profile> filter) throws Exception {
-        return this.get(p -> FilterEvaluator.match(p, filter));
-    }
 
     @Override
     public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
-        return this.getAll(p -> FilterEvaluator.match(p, filter));
+        return this.getAll().stream().filter(p -> FilterEvaluator.evaluate(p, filter)).toList();
     }
 
 

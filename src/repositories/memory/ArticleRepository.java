@@ -13,7 +13,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
     List<Article> articles = new ArrayList<>();
 
     @Override
-    public List<Article> findAll() {
+    public List<Article> getAll() {
         return articles;
     }
 
@@ -53,14 +53,10 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
         articles = articles.stream().filter(a -> a.getId() != article.getId()).toList();
     }
 
-    @Override
-    public Article get(AbstractFilter<Article> filter) throws Exception {
-        return this.get(a -> FilterEvaluator.match(a, filter));
-    }
 
     @Override
     public List<Article> getAll(AbstractFilter<Article> filter) throws Exception {
-        return this.getAll(a -> FilterEvaluator.match(a, filter));
+        return this.articles.stream().filter(article -> FilterEvaluator.evaluate(article, filter)).toList();
     }
 
 }

@@ -15,7 +15,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
     List<Profile> profiles = new ArrayList<>();
 
     @Override
-    public List<Profile> findAll() {
+    public List<Profile> getAll() {
         return profiles;
     }
 
@@ -55,14 +55,10 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
         profiles = profiles.stream().filter(p -> p.getId() != profile.getId()).toList();
     }
 
-    @Override
-    public Profile get(AbstractFilter<Profile> filter) throws Exception {
-        return this.get(p -> FilterEvaluator.match(p, filter));
-    }
 
     @Override
     public List<Profile> getAll(AbstractFilter<Profile> filter) throws Exception {
-        return this.getAll(p -> FilterEvaluator.match(p, filter));
+        return profiles.stream().filter(p -> FilterEvaluator.evaluate(p, filter)).toList();
     }
 
 

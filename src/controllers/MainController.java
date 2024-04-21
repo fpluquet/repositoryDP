@@ -4,7 +4,6 @@ import models.Article;
 import models.Profile;
 import org.slf4j.LoggerFactory;
 import repositories.common.RepositoryFactory;
-import repositories.common.filters.AbstractFilter;
 import repositories.common.filters.FilterContains;
 import repositories.common.filters.FilterEquals;
 import repositories.db.DBRepositoryFactory;
@@ -18,8 +17,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainController {
 
@@ -103,7 +100,7 @@ public class MainController {
 
     private void showAll(String title, AbstractService<?> service) throws Exception {
         log.info(title + ":");
-        service.findAll().forEach(e -> log.info(e.toString()));
+        service.getAll().forEach(e -> log.info(e.toString()));
     }
 
     private void setServices() throws Exception {

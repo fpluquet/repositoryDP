@@ -2,6 +2,7 @@ package services;
 
 import models.Profile;
 import repositories.common.CRUDRepository;
+import repositories.common.filters.FilterEquals;
 
 public class ProfileService extends AbstractService<Profile> {
 
@@ -18,7 +19,7 @@ public class ProfileService extends AbstractService<Profile> {
     }
 
     private void checkUniqueLogin(Profile profile) throws Exception {
-        if (this.repository.exists(p -> p.getLogin().equals(profile.getLogin()))) {
+        if (this.repository.exists(new FilterEquals<>("login", profile.getLogin()))) {
             throw new Exception("Login already exists");
         }
     }

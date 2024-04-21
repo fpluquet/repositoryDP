@@ -8,7 +8,7 @@ public interface CRUDRepository<T, ID> {
 
     // CRUD operations
 
-    List<T> findAll() throws Exception;
+    List<T> getAll() throws Exception;
 
     T getById(ID id) throws Exception;
 
@@ -19,14 +19,6 @@ public interface CRUDRepository<T, ID> {
     void delete(T t) throws Exception;
 
 
-    default T get(SearchCriteria<T> criteria) throws Exception {
-        return this.getAll(criteria).stream().findFirst().orElseThrow();
-    }
-
-
-    default List<T> getAll(SearchCriteria<T> criteria) throws Exception {
-        return this.findAll().stream().filter(criteria::match).toList();
-    }
 
     default T get(AbstractFilter<T> filter) throws Exception {
         return this.getAll(filter).stream().findFirst().orElseThrow();
@@ -34,9 +26,6 @@ public interface CRUDRepository<T, ID> {
 
     List<T> getAll(AbstractFilter<T> filter) throws Exception;
 
-    default boolean exists(SearchCriteria<T> criteria) throws Exception {
-        return !this.getAll(criteria).isEmpty();
-    }
 
     default boolean exists(AbstractFilter<T> criteria) throws Exception {
         try {

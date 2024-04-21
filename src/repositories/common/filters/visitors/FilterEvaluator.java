@@ -6,7 +6,6 @@ import repositories.common.filters.*;
 
 import java.lang.reflect.Field;
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class FilterEvaluator<T> extends FiltersVisitor<T> {
 
@@ -18,7 +17,7 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
         this.value = value;
     }
 
-    public static <T> boolean match(T a, AbstractFilter<T> filter) {
+    public static <T> boolean evaluate(T a, AbstractFilter<T> filter) {
         FilterEvaluator<T> filterEvaluator = new FilterEvaluator<T>(a);
         filter.accept(filterEvaluator);
         return filterEvaluator.isTaken;
@@ -50,7 +49,7 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
     public void visit(CompositeAndFilter<T> filter) {
         isTaken = true;
         for (AbstractFilter<T> f : filter.getFilters()) {
-            isTaken = isTaken && FilterEvaluator.match(this.value, f);
+            isTaken = isTaken && FilterEvaluator.evaluate(this.value, f);
             if (!isTaken) {
                 break;
             }
@@ -61,7 +60,7 @@ public class FilterEvaluator<T> extends FiltersVisitor<T> {
     public void visit(CompositeOrFilter<T> filter) {
         isTaken = false;
         for (AbstractFilter<T> f : filter.getFilters()) {
-            isTaken = isTaken || FilterEvaluator.match(this.value, f);
+            isTaken = isTaken || FilterEvaluator.evaluate(this.value, f);
             if (isTaken) {
                 break;
             }

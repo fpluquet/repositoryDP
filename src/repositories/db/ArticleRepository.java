@@ -33,7 +33,7 @@ public class ArticleRepository extends repositories.common.ArticleRepository {
     }
 
     @Override
-    public List<Article> findAll() throws Exception {
+    public List<Article> getAll() throws Exception {
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM articles");
         ResultSet resultSet = statement.executeQuery();
         List<Article> articles = new java.util.ArrayList<>();
