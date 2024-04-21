@@ -99,7 +99,7 @@ public class MainController {
     }
 
     private void showAll(String title, AbstractService<?> service) throws Exception {
-        log.info(title + ":");
+        log.info("{} :", title);
         service.getAll().forEach(e -> log.info(e.toString()));
     }
 

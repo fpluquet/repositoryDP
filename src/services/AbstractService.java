@@ -1,16 +1,16 @@
 package services;
 
 import models.AbstractElement;
-import repositories.common.CRUDRepository;
+import repositories.common.AbstractRepository;
 import repositories.common.filters.AbstractFilter;
 
 import java.util.List;
 
 public class AbstractService<T extends AbstractElement> {
 
-    CRUDRepository<T, Long> repository;
+    AbstractRepository<T, Long> repository;
 
-    public AbstractService(CRUDRepository<T, Long> repository) {
+    public AbstractService(AbstractRepository<T, Long> repository) {
         this.repository = repository;
     }
 
@@ -38,6 +38,16 @@ public class AbstractService<T extends AbstractElement> {
 
     public void delete(T element) throws Exception {
         this.repository.delete(element);
+    }
+
+    public void delete(AbstractFilter<T> criteria) throws Exception {
+        this.repository.delete(this.get(criteria));
+    }
+
+    public void deleteAll(AbstractFilter<T> criteria) throws Exception {
+        for (T element : this.repository.getAll(criteria)) {
+            this.delete(element);
+        }
     }
 
 

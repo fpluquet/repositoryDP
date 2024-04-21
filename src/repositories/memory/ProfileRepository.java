@@ -13,6 +13,7 @@ import java.util.Optional;
 public class ProfileRepository extends repositories.common.ProfileRepository {
 
     List<Profile> profiles = new ArrayList<>();
+    int nextId = 1;
 
     @Override
     public List<Profile> getAll() {
@@ -30,6 +31,7 @@ public class ProfileRepository extends repositories.common.ProfileRepository {
             this.update(profile);
         } else {
             profiles.add(profile);
+            profile.setId(nextId++);
         }
     }
 

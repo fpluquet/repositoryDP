@@ -4,7 +4,7 @@ import repositories.common.filters.AbstractFilter;
 
 import java.util.List;
 
-public interface CRUDRepository<T, ID> {
+public interface AbstractRepository<T, ID> {
 
     // CRUD operations
 

@@ -2,12 +2,12 @@ package services;
 
 import models.Article;
 import models.Profile;
-import repositories.common.CRUDRepository;
+import repositories.common.AbstractRepository;
 
 public class ArticleService extends AbstractService<Article> {
 
 
-    public ArticleService(CRUDRepository<Article, Long> articleRepository) {
+    public ArticleService(AbstractRepository<Article, Long> articleRepository) {
         super(articleRepository);
     }
 
