@@ -2,11 +2,12 @@ package services;
 
 import models.Profile;
 import repositories.common.AbstractRepository;
+import repositories.common.ProfileRepository;
 import repositories.common.filters.FilterEquals;
 
 public class ProfileService extends AbstractService<Profile> {
 
-    public ProfileService(AbstractRepository<Profile, Long> profileRepository) {
+    public ProfileService(ProfileRepository profileRepository) {
         super(profileRepository);
     }
 

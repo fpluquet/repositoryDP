@@ -36,6 +36,11 @@ public class MainController {
 //        this.repositoryFactory = getMemoryRepositoryFactory();
     }
 
+    private void setServices() throws Exception {
+        this.articleService = new ArticleService(repositoryFactory.getArticleRepository());
+        this.profileService = new ProfileService(repositoryFactory.getProfileRepository());
+    }
+
     public void start() {
         try {
             setApplicationRepositoryFactory();
@@ -84,7 +89,7 @@ public class MainController {
     }
 
     private Profile getSpecificProfile() throws Exception {
-        return profileService.get(new FilterContains<Profile>("fullName", "Fred").and(new FilterEquals<Profile>("login", "freddy")).or(new FilterEquals<Profile>("login", "barney")));
+        return profileService.get(new FilterContains<Profile>("fullname", "Fred").and(new FilterEquals<Profile>("login", "freddy")).or(new FilterEquals<Profile>("login", "barney")));
     }
 
     private void insertNewDataIfNotExists() throws Exception {
@@ -103,10 +108,6 @@ public class MainController {
         service.getAll().forEach(e -> log.info(e.toString()));
     }
 
-    private void setServices() throws Exception {
-        this.articleService = new ArticleService(repositoryFactory.getArticleRepository());
-        this.profileService = new ProfileService(repositoryFactory.getProfileRepository());
-    }
 
     public RepositoryFactory getDBRepositoryFactory() throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:sqlite:data\\sample.db");
